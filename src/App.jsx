@@ -22,6 +22,11 @@ function App() {
               <Route path=":userId" element={<Show/>}/>
               <Route path="new" element={<Create/>}/>
             </Route>
+            <Route path="products">
+              <Route index element={<List/>}/>
+              <Route path=":productId" element={<Show/>}/>
+              <Route path="new" element={<Create/>}/>
+            </Route>
           </Route>
         </Routes>
       </BrowserRouter>
