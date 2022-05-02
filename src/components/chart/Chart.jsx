@@ -3,11 +3,11 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { chartData as data } from '../../dummy';
 import './chart.scss'
 
-const Chart = () => {
+const Chart = ({aspect, title}) => {
   return (
     <div className="chart">
-      <div className="title">Revenue for Past 6 Months</div>
-      <ResponsiveContainer width="100%" aspect={2/1}>
+      <div className="title">{title}</div>
+      <ResponsiveContainer width="100%" aspect={aspect}>
       <AreaChart width={730} height={250} data={data}
         margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
         <defs>
