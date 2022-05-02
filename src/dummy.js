@@ -168,4 +168,123 @@ export const data = [
       price: "$120.00",
       method: "Online Payment",
     },
-  ]
+  ];
+
+  export const userRows = [
+    { 
+        id: 1, 
+        username: 'Jon Snow', 
+        avatar: 'https://images.unsplash.com/photo-1519419691348-3b3433c4c20e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1162&q=80', 
+        email: 'snow@gm.com', 
+        status: 'pending', 
+        transaction: '$120.00', 
+    },
+    { 
+        id: 2, 
+        username: 'Jon Snow', 
+        avatar: 'https://images.unsplash.com/photo-1519419691348-3b3433c4c20e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1162&q=80', 
+        email: 'snow@gm.com', 
+        status: 'active', 
+        transaction: '$120.00', 
+    },
+    { 
+        id: 3, 
+        username: 'Jon Snow', 
+        avatar: 'https://images.unsplash.com/photo-1519419691348-3b3433c4c20e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1162&q=80', 
+        email: 'snow@gm.com', 
+        status: 'passive', 
+        transaction: '$120.00', 
+    },
+    { 
+        id: 4, 
+        username: 'Jon Snow', 
+        avatar: 'https://images.unsplash.com/photo-1519419691348-3b3433c4c20e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1162&q=80', 
+        email: 'snow@gm.com', 
+        status: 'pending', 
+        transaction: '$120.00', 
+    },
+    { 
+        id: 5, 
+        username: 'Jon Snow', 
+        avatar: 'https://images.unsplash.com/photo-1519419691348-3b3433c4c20e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1162&q=80', 
+        email: 'snow@gm.com', 
+        status: 'passive', 
+        transaction: '$120.00', 
+    },
+    { 
+        id: 6, 
+        username: 'Jon Snow', 
+        avatar: 'https://images.unsplash.com/photo-1519419691348-3b3433c4c20e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1162&q=80', 
+        email: 'snow@gm.com', 
+        status: 'active', 
+        transaction: '$120.00', 
+    },
+    { 
+        id: 7, 
+        username: 'Jon Snow', 
+        avatar: 'https://images.unsplash.com/photo-1519419691348-3b3433c4c20e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1162&q=80', 
+        email: 'snow@gm.com', 
+        status: 'active', 
+        transaction: '$120.00', 
+    },
+    { 
+        id: 8, 
+        username: 'Jon Snow', 
+        avatar: 'https://images.unsplash.com/photo-1519419691348-3b3433c4c20e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1162&q=80', 
+        email: 'snow@gm.com', 
+        status: 'active', 
+        transaction: '$120.00', 
+    },
+    { 
+        id: 9, 
+        username: 'Jon Snow', 
+        avatar: 'https://images.unsplash.com/photo-1519419691348-3b3433c4c20e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1162&q=80', 
+        email: 'snow@gm.com', 
+        status: 'passive', 
+        transaction: '$120.00', 
+    },
+    { 
+        id: 10, 
+        username: 'Jon Snow', 
+        avatar: 'https://images.unsplash.com/photo-1519419691348-3b3433c4c20e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1162&q=80', 
+        email: 'snow@gm.com', 
+        status: 'active', 
+        transaction: '$120.00', 
+    },
+    
+  ];
+
+  export const userColumns = [
+    { field: 'id', headerName: 'ID', width: 70 },
+    {
+      field: 'user',
+      headerName: 'User',
+      width: 230,
+      renderCell: (params) => {
+        return (
+          <div className="cellWithImg">
+            <img className="cellImg" src={params.row.avatar} alt="avatar" />
+            {params.row.username}
+          </div>
+        )
+      }
+    },
+    { field: 'email', headerName: 'Email', width: 230 },
+    { field: 'transaction', headerName: 'Transaction', width: 100 },
+    { field: 'status', headerName: 'Status', width: 160,
+      renderCell: (params) => {
+        return (
+          <div className={`cellWithStatus ${params.row.status}`}  alt="avatar">{params.row.status}</div>
+        )
+      }
+    },
+    // {
+    //   field: 'fullName',
+    //   headerName: 'Full name',
+    //   description: 'This column has a value getter and is not sortable.',
+    //   sortable: false,
+    //   width: 160,
+    //   valueGetter: (params) =>
+    //     `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+    // },
+  ];
