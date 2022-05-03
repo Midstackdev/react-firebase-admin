@@ -1,30 +1,39 @@
 import { AccountCircleOutlined, CreditCard, Dashboard, ExitToApp, InsertChart, LocalShipping, NotificationsNone, PersonOutline, PsychologyOutlined, SettingsApplications, SettingsSystemDaydreamOutlined, StoreOutlined } from '@mui/icons-material'
 import React from 'react'
+import { Link } from 'react-router-dom'
 import './sidebar.scss'
 
 const Sidebar = () => {
   return (
     <div className="sidebar">
         <div className="top">
-            <div className="logo">Admin0</div>
+            <Link to="/">
+                <div className="logo">Admin0</div>
+            </Link>
         </div>
         <hr />
         <div className="center">
             <ul>
                 <p className="title">MAIN</p>
-                <li>
-                    <Dashboard className="icon"/>
-                    <span>Dashbaord</span>
-                </li>
+                <Link to="/">
+                    <li>
+                        <Dashboard className="icon"/>
+                        <span>Dashbaord</span>
+                    </li>
+                </Link>
                 <p className="title">LIST</p>
-                <li>
-                    <PersonOutline className="icon"/>
-                    <span>Users</span>
-                </li>
-                <li>
-                    <StoreOutlined className="icon"/>
-                    <span>Products</span>
-                </li>
+                <Link to="/users">
+                    <li>
+                        <PersonOutline className="icon"/>
+                        <span>Users</span>
+                    </li>
+                </Link>
+                <Link to="/products">
+                    <li>
+                        <StoreOutlined className="icon"/>
+                        <span>Products</span>
+                    </li>
+                </Link>
                 <li>
                     <CreditCard className="icon"/>
                     <span>Orders</span>
