@@ -3,6 +3,7 @@ import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { doc, serverTimestamp, setDoc } from 'firebase/firestore'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Navbar from '../../components/navbar/Navbar'
 import Sidebar from '../../components/sidebar/Sidebar'
 import { auth, db, storage } from '../../firebase'
@@ -12,6 +13,7 @@ const Create = ({ title, inputs }) => {
   const [file, setFile] = useState("")
   const [data, setData] = useState({})
   const [percentage, setPercentage] = useState(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const uploadFile = () => {
@@ -60,8 +62,6 @@ const Create = ({ title, inputs }) => {
     setData({ ...data, [id]:value })
   }
 
-  console.log(data)
-
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
@@ -70,6 +70,7 @@ const Create = ({ title, inputs }) => {
         ...data,
         timeStamp: serverTimestamp()
       })
+      navigate(-1)
       
     } catch (error) {
       console.log(error)

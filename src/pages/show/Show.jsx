@@ -1,11 +1,30 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../../components/navbar/Navbar'
 import Sidebar from '../../components/sidebar/Sidebar'
 import Chart from '../../components/chart/Chart'
 import Table from '../../components/table/Table'
 import './show.scss'
+import { doc, getDoc } from 'firebase/firestore'
+import { db } from '../../firebase'
+import { useParams } from 'react-router-dom'
 
 const Show = () => {
+  const [data, setData] = useState({})
+  const { userId } = useParams()
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const querySnapshot = await getDoc(doc(db, "users", userId));
+        setData(querySnapshot.data())
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchData()
+  
+  }, [userId])
+
   return (
     <div className="single">
       <Sidebar />
@@ -17,27 +36,27 @@ const Show = () => {
             <h1 className="title">Information</h1>
             <div className="item">
               <img 
-                src="https://images.unsplash.com/photo-1519419691348-3b3433c4c20e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1162&q=80" 
+                src={data.img} 
                 alt="" 
                 className="itemImg" 
               />
               <div className="details">
-                <h1 className="itemTitle">Jane Doe</h1>
+                <h1 className="itemTitle">{data?.fullname}</h1>
                 <div className="detailItem">
                   <span className="itemKey">Email:</span>
-                  <span className="itemValue">janedoe@gm.com</span>
+                  <span className="itemValue">{data?.email}</span>
                 </div>
                 <div className="detailItem">
                   <span className="itemKey">Phone:</span>
-                  <span className="itemValue">+233 50712 7431</span>
+                  <span className="itemValue">{data?.phone}</span>
                 </div>
                 <div className="detailItem">
                   <span className="itemKey">Address:</span>
-                  <span className="itemValue">No. 21 Adjudu Enclave, Awoshie, Accra</span>
+                  <span className="itemValue">{data?.address}</span>
                 </div>
                 <div className="detailItem">
                   <span className="itemKey">Country:</span>
-                  <span className="itemValue">Ghana</span>
+                  <span className="itemValue">{data?.country}</span>
                 </div>
               </div>
             </div>

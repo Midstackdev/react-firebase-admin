@@ -263,14 +263,14 @@ export const data = [
       renderCell: (params) => {
         return (
           <div className="cellWithImg">
-            <img className="cellImg" src={params.row.avatar} alt="avatar" />
-            {params.row.username}
+            <img className="cellImg" src={params.row.img} alt="avatar" />
+            {params.row.fullname}
           </div>
         )
       }
     },
-    { field: 'email', headerName: 'Email', width: 230 },
-    { field: 'transaction', headerName: 'Transaction', width: 100 },
+    { field: 'email', headerName: 'Email', width: 180 },
+    { field: 'address', headerName: 'Address', width: 100 },
     { field: 'status', headerName: 'Status', width: 160,
       renderCell: (params) => {
         return (
