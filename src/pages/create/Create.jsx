@@ -1,11 +1,82 @@
 import { DriveFolderUploadOutlined } from '@mui/icons-material'
-import React, { useState } from 'react'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { doc, serverTimestamp, setDoc } from 'firebase/firestore'
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../../components/navbar/Navbar'
 import Sidebar from '../../components/sidebar/Sidebar'
+import { auth, db, storage } from '../../firebase'
 import './create.scss'
 
-const Create = ({ title }) => {
+const Create = ({ title, inputs }) => {
   const [file, setFile] = useState("")
+  const [data, setData] = useState({})
+  const [percentage, setPercentage] = useState(null)
+
+  useEffect(() => {
+    const uploadFile = () => {
+      const name = `${new Date().getTime()}_${file.name}`
+
+      const storageRef = ref(storage, name)
+
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      uploadTask.on('state_changed', 
+        (snapshot) => {
+
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log('Upload is ' + progress + '% done');
+          setPercentage(progress)
+          switch (snapshot.state) {
+            case 'paused':
+              console.log('Upload is paused');
+              break;
+            case 'running':
+              console.log('Upload is running');
+              break;
+            default:
+              break;
+          }
+        }, 
+        (error) => {
+         console.log(error)
+        }, 
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setData((prev) => ({ ...prev, img:downloadURL }))
+          });
+        }
+      );
+    }
+
+    file && uploadFile()
+  }, [file])
+  
+
+  const handleInput = (e) => {
+    const id = e.target.id
+    const value = e.target.value
+
+    setData({ ...data, [id]:value })
+  }
+
+  console.log(data)
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      const res = await createUserWithEmailAndPassword(auth, data.email, data.password)
+      await setDoc(doc(db, "users", res.user.uid), {
+        ...data,
+        timeStamp: serverTimestamp()
+      })
+      
+    } catch (error) {
+      console.log(error)
+      
+    }
+
+  }
   return (
     <div className="new">
       <Sidebar/>
@@ -23,7 +94,7 @@ const Create = ({ title }) => {
             />
           </div>
           <div className="right">
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="formInput">
                 <label htmlFor="file">
                   Image: <DriveFolderUploadOutlined className="icon"/>
@@ -35,34 +106,22 @@ const Create = ({ title }) => {
                   style={{ display: "none" }}
                 />
               </div>
+              {
+                inputs.map((input) => (
+                  <div className="formInput" key={input.id}>
+                    <label htmlFor="">{input.label}</label>
+                    <input 
+                      id={input.id}
+                      type={input.type} 
+                      placeholder={input.placeholder} 
+                      onChange={handleInput}
+                    />
+                  </div>
+                  
+                ))
+              }
               <div className="formInput">
-                <label htmlFor="">Username</label>
-                <input type="text" name="" id="" placeholder="midstacks"/>
-              </div>
-              <div className="formInput">
-                <label htmlFor="">Name</label>
-                <input type="text" name="" id="" placeholder="Alfred Smith"/>
-              </div>
-              <div className="formInput">
-                <label htmlFor="">Email</label>
-                <input type="email" name="" id="" placeholder="midstacks@gmail.com"/>
-              </div>
-              <div className="formInput">
-                <label htmlFor="">Phone</label>
-                <input type="text" name="" id="" placeholder="+233 50712 7431"/>
-              </div>
-              <div className="formInput">
-                <label htmlFor="">Address</label>
-                <input type="text" name="" id="" placeholder="Samo St. 456, Ableke Accra"/>
-              </div>
-              <div className="formInput">
-                <label htmlFor="">Country</label>
-                <input type="text" name="" id="" placeholder="Ghana"/>
-              </div>
-              <div className="formInput">
-                {/* <label htmlFor="">Country</label>
-                <input type="text" name="" id="" placeholder="Ghana"/> */}
-              <button>Send</button>
+                <button disabled={percentage !== null && percentage < 100} type="submit">Send</button>
               </div>
             </form>
           </div>

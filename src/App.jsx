@@ -13,13 +13,12 @@ import "./styles/dark.scss"
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/AuthContext";
+import { productInputs, userInputs } from "./formsData";
 
 function App() {
 
   const { darkMode } = useContext(DarkModeContext);
   const { currentUser: user } = useContext(AuthContext)
-
-  console.log(user)
 
   const RequireAuth = ({ children }) => {
     return user ? children : <Navigate to="/login"/>;
@@ -35,12 +34,12 @@ function App() {
             <Route path="users">
               <Route index element={<RequireAuth><List/></RequireAuth>}/>
               <Route path=":userId" element={<RequireAuth><Show/></RequireAuth>}/>
-              <Route path="new" element={<RequireAuth><Create title="User"/></RequireAuth>}/>
+              <Route path="new" element={<RequireAuth><Create title="User" inputs={userInputs}/></RequireAuth>}/>
             </Route>
             <Route path="products">
               <Route index element={<RequireAuth><List/></RequireAuth>}/>
               <Route path=":productId" element={<RequireAuth><Show/></RequireAuth>}/>
-              <Route path="new" element={<RequireAuth><Create title="Product"/></RequireAuth>}/>
+              <Route path="new" element={<RequireAuth><Create title="Product" inputs={productInputs}/></RequireAuth>}/>
             </Route>
           </Route>
         </Routes>
