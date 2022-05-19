@@ -37,6 +37,7 @@ const Login = () => {
         <input type="password" placeholder="password" onChange={e => setPassword(e.target.value)} />
         <button type="submit">Login</button>
         {error && <span>Wrong email/password</span>}
+        <span className="cred">Email: admin@admin.com Password: password</span>
       </form>
     </div>
   )
